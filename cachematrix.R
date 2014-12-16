@@ -4,16 +4,21 @@
 ## and if the same inverse has to be calculated again it uses 
 ## a cached value stored from the previous calculation
 
-
+ 
 ## this function returns a list of functions to get a matrix value 
 ## and to set/get the inverse of that matrix
 
 makeCacheMatrix <- function(x = matrix()) {# This is a constructor function
   m<-NULL # m is initialized with the NULL value when makeCacheMatrix is created, meaning that there is no cached value
+  #the following functions are defined
   get<-function()x # this function returns the value of the matrix x
+  set<-function(y){ # this function sets a new value to the matrix x
+    x<<-y # the new matrix "y" is set to x
+    m<<-NULL # the cached value is erased
+  }
   setsolve<-function(inverse) m<<-inverse # this function assigns to m(parent value) the inverse matrix of x. The value is cached
   getsolve<-function() m #this function returns the cached value of the inverse matrix. m will be NULL if no inverse matrix has been calculated
-  list(get = get, #a list with the 3 functions needed is returned
+  list(get = get,set=set, #a list with the 4 functions needed is returned
        setsolve = setsolve,
        getsolve = getsolve)
 }
